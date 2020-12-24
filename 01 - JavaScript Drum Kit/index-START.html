@@ -58,6 +58,11 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  const playAudio = (audio) => {
+    audio.currentTime = 0;
+    audio.play();
+  };
+
   const addOrRemoveClassAndPlayOrStopAudio = (
     keyCode,
     pressingKey, 
@@ -66,18 +71,16 @@
     queryElementsBasedOnValue.length > 0 
       ? queryElementsBasedOnValue.forEach((node) => {
           // Refactor 
+          // Needed to rewrite to make sure the audio starts from the start when key pressed in succession.
           node.tagName === "DIV"
             ? node.classList[pressingKey ? "add" : "remove"]("playing")
-            : pressingKey ? node.play() : null;
+            : pressingKey ?  playAudio(node) : null;
           return;
       })
       : null;    
   };
 
   document.addEventListener('keydown', (event) => {
-   // console.log("keypress - keydown", event);
-    
-
     // Depending on the Key pressed, add class and play music
     
     // First Method - Deprecated - Use the keyCode value to match with data-key
