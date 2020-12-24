@@ -58,7 +58,42 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  const addOrRemoveClassAndPlayOrStopAudio = (
+    keyCode,
+    pressingKey, 
+  ) => {
+    const queryElementsBasedOnValue = document.querySelectorAll(`[data-key="${keyCode}"]`);
+    queryElementsBasedOnValue.length > 0 
+      ? queryElementsBasedOnValue.forEach((node) => {
+          // Refactor 
+          node.tagName === "DIV"
+            ? node.classList[pressingKey ? "add" : "remove"]("playing")
+            : pressingKey ? node.play() : null;
+          return;
+      })
+      : null;    
+  };
 
+  document.addEventListener('keydown', (event) => {
+   // console.log("keypress - keydown", event);
+    
+
+    // Depending on the Key pressed, add class and play music
+    
+    // First Method - Deprecated - Use the keyCode value to match with data-key
+    const { keyCode } = event;
+
+    addOrRemoveClassAndPlayOrStopAudio(keyCode, true);
+  });
+
+  document.addEventListener('keyup', (event) => {    
+    // Depending on the Key pressed, add class and play music
+    
+    // First Method - Deprecated - Use the keyCode value to match with data-key
+    const { keyCode } = event;
+
+    addOrRemoveClassAndPlayOrStopAudio(keyCode, false);   
+  });
 </script>
 
 
