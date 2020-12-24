@@ -65,9 +65,10 @@
 
   const addOrRemoveClassAndPlayOrStopAudio = (
     keyCode,
-    pressingKey, 
+    pressingKey,
   ) => {
     const queryElementsBasedOnValue = document.querySelectorAll(`[data-key="${keyCode}"]`);
+    console.log(pressingKey, keyCode);
     queryElementsBasedOnValue.length > 0 
       ? queryElementsBasedOnValue.forEach((node) => {
           // Refactor 
@@ -80,23 +81,8 @@
       : null;    
   };
 
-  document.addEventListener('keydown', (event) => {
-    // Depending on the Key pressed, add class and play music
-    
-    // First Method - Deprecated - Use the keyCode value to match with data-key
-    const { keyCode } = event;
-
-    addOrRemoveClassAndPlayOrStopAudio(keyCode, true);
-  });
-
-  document.addEventListener('keyup', (event) => {    
-    // Depending on the Key pressed, add class and play music
-    
-    // First Method - Deprecated - Use the keyCode value to match with data-key
-    const { keyCode } = event;
-
-    addOrRemoveClassAndPlayOrStopAudio(keyCode, false);   
-  });
+  document.addEventListener('keydown', ((e) => (addOrRemoveClassAndPlayOrStopAudio(e.keyCode, true))));
+  document.addEventListener('keyup', ((e) => (addOrRemoveClassAndPlayOrStopAudio(e.keyCode, false))));
 </script>
 
 
