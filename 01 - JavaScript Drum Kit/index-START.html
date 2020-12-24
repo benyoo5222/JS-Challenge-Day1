@@ -68,7 +68,7 @@
     pressingKey,
   ) => {
     const queryElementsBasedOnValue = document.querySelectorAll(`[data-key="${keyCode}"]`);
-    console.log(pressingKey, keyCode);
+    
     queryElementsBasedOnValue.length > 0 
       ? queryElementsBasedOnValue.forEach((node) => {
           // Refactor 
