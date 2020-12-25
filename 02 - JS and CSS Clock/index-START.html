@@ -62,13 +62,81 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100% 50%;
+      transform: rotate(90deg);
+      transition: transform 0.5s cubic-bezier(0, 2.86, 0.58, 1);
     }
 
   </style>
 
   <script>
+    // First solution
+    const timeAngles = {
+      "min-hand": 0, 
+      "second-hand": 0,
+      "hour-hand": 0,
+    };
 
+    const calculateCurrentAngle = (node) => {
+      const transformValueInMatrix = window.getComputedStyle(node).transform;
+      console.log("Transformed value", transformValueInMatrix);
+      var values = transformValueInMatrix.split('(')[1],
+          values = values.split(')')[0],
+          values = values.split(',');
+      
+      return Math.round(Math.asin(values[1]) * (180/Math.PI));
+    };
 
+    const moveTimeHands = (arrayOfNodes, anglesObj) => {
+      arrayOfNodes.forEach((node) => {
+        const newAngle = anglesObj[node.classList[1]] + calculateCurrentAngle(node);
+
+        timeAngles[node.classList[1]] = newAngle;
+        node.style.transform = `rotate(${newAngle}deg)`;
+      });
+    };
+
+    const moveSecondsHand = (className, additionalAngle) => {
+      const timeNode = document.getElementsByClassName(`${className}`);
+      const newAngle = additionalAngle + timeAngles[className];
+      
+      timeAngles[className] = newAngle;
+
+      if ((newAngle - 90) % 360 === 0) {
+        (className === "second-hand" || className === "min-hand") && className !== "hour-hand"
+          ? (
+              className === "second-hand"
+                ? moveSecondsHand("min-hand", 6)
+                : moveSecondsHand("hour-hand", 30)
+            )
+          : null;
+      } 
+
+      timeNode[0].style.transform = `rotate(${newAngle}deg)`;
+      return;
+    };
+
+    window.onload = () => {
+      const currentDateAndTime = new Date();
+
+      const hours = currentDateAndTime.getHours();
+      const minutes = currentDateAndTime.getMinutes();
+      const seconds = currentDateAndTime.getSeconds();
+
+      const anglesForTimeObj = {
+        "min-hand": minutes * 6, 
+        "second-hand": seconds * 6,
+        "hour-hand": hours * 30,
+      };
+
+      const timeHands = document.querySelectorAll(".hand");
+      
+      timeHands.length > 0 
+        ? moveTimeHands(timeHands, anglesForTimeObj)
+        : null;
+      
+      window.setInterval(moveSecondsHand, 1000, "second-hand", 6);
+    };
   </script>
 </body>
 </html>
