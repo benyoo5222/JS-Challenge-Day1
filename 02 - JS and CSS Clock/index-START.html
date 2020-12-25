@@ -79,10 +79,10 @@
 
     const calculateCurrentAngle = (node) => {
       const transformValueInMatrix = window.getComputedStyle(node).transform;
-      console.log("Transformed value", transformValueInMatrix);
-      var values = transformValueInMatrix.split('(')[1],
-          values = values.split(')')[0],
-          values = values.split(',');
+      
+      let values = transformValueInMatrix.split('(')[1]
+      values = values.split(')')[0];
+      values = values.split(',');
       
       return Math.round(Math.asin(values[1]) * (180/Math.PI));
     };
@@ -99,7 +99,7 @@
     const moveSecondsHand = (className, additionalAngle) => {
       const timeNode = document.getElementsByClassName(`${className}`);
       const newAngle = additionalAngle + timeAngles[className];
-      
+
       timeAngles[className] = newAngle;
 
       if ((newAngle - 90) % 360 === 0) {
