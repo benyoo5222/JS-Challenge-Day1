@@ -22,6 +22,17 @@
 
   <style>
 
+    :root {
+      --spacing: 10px;
+      --main-color: #ffc600;
+      --blur-value: 10px;
+    }
+
+    img {
+      padding: var(--spacing, 10px);
+      background-color: var(--main-color);
+      filter: blur(var(--blur-value));
+    }
     /*
       misc styles, nothing to do with CSS variables
     */
