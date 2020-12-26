@@ -56,6 +56,22 @@
   </style>
 
   <script>
+    // First solution
+    // Grab all of the inputs and based on the ID of the element, update the CSS variable using the input value.
+    const mapOfVariables = {
+      spacing: "--spacing",
+      base: "--main-color",
+      blur: "--blur-value",
+    };
+
+    const allInputs = document.querySelectorAll("input");
+
+    allInputs.forEach(node => {
+      const { id } = node;
+      node.oninput = ((e) => {
+        document.documentElement.style.setProperty(`${mapOfVariables[id]}`, e.target.dataset.sizing ? `${e.target.value}${e.target.dataset.sizing}` : `${e.target.value}`);
+      });
+    });
   </script>
 
 </body>
