@@ -37,29 +37,101 @@
     
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    const bornInFifteenHundres = inventors.filter((inventor, index, arr) => {
+      return inventor.year >= 1500 && inventor.year < 1600;
+    });
+    // result -> Galilieo, Johannes
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+    const inventorsNamesOnly = inventors.map((inventor, index, map) => {
+      const { first, last } = inventor;
 
+      return { first, last };
+    });
+  
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    const sortedFromOldestToYoungestByBirthdate = inventors.sort((a, b) => {
+      return b.year - a.year;
+    });
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
+    // First solution
+    const acculumatedAge = inventors.reduce((acc, currentVal, index, arr) => {
+      let currentAccumulated = 0;
+      if (acc.year) {
+        currentAccumulated = acc.passed - acc.year;
+      } else {
+        currentAccumulated = acc;
+      }
+  
+      const currentInventorAge = currentVal.passed - currentVal.year;
+      return currentAccumulated + currentInventorAge;
+    });
+    
+    // Second solution
+    const totalAge = inventors.reduce((acc, current, index, arr) => {
+      if (index == 0) {
+        return acc;
+      }
+      return acc + (current.passed - current.year);
+    }, (inventors[0].passed - inventors[0].year));
 
     // 5. Sort the inventors by years lived
-
+    const sortedFromOldestToYoungest = inventors.sort((a, b) => {
+      return (b.passed - b.year) - (a.passed - a.year);
+    });
+ 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+    // First Solution
+    const allCategories = document.querySelectorAll(".mw-category-group > ul");
+    const reducedList = Array.from(allCategories).reduce((acc, current, index, arr) => {
+      Array.from(current.children).forEach(node => {
+        node.innerText.includes("de") 
+          ? acc.push(node.innerText)
+          : null;
+      });
+
+      return acc;
+    }, []);
+
+    // Second Solution
+    const allStreetsIncludingDe = [...document.querySelectorAll(".mw-category-group > ul > li > a")]
+      .map(node => (node.textContent))
+      .filter(text => (text.includes("de")));
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const sortedByLastName = people.sort((a, b) => {
+      return a.split(",")[0] > b.split(",")[0] ? -1 : 1;
+    });
+    console.table(sortedByLastName);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
 
+    const counter = data.reduce((acc, current) => {
+      acc[current]  
+        ? acc[current] = acc[current]+ 1
+        : acc[current] = 1; // 0 is falsely so changed it to string
+      return acc;
+    }, {});
+
+    // Second solution 
+
+    const countInstance = data.reduce((acc, current) => {
+      if (!acc[current]) {
+        acc[current] = 0;
+      }
+
+      acc[current] += 1;
+      return acc;
+    }, {});
   </script>
 </body>
 </html>
