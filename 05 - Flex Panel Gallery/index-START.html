@@ -26,6 +26,8 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex; /* Main-axis is left to right */
+      justify-content: space-between; /* The space is evenly distributed to all items and the start is flushed against the main start while the last item is flushed againt the main end */
     }
 
     .panel {
@@ -43,6 +45,12 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex: 1; /* This will grow the items to take the rest of space available along the main axis. The shrink and basis automatically gets 1 and 0 values */
+      
+      display: flex; /* Make the panel a flex container as well */
+      flex-direction: column;
+      justify-content: space-around;
+      flex-grow: 1;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -65,8 +73,17 @@
       font-size: 2em;
     }
     
+    .panel p:nth-child(1) {
+      
+      transform: translateY(-400%);
+    }
+
     .panel p:nth-child(2) {
       font-size: 4em;
+    }
+
+    .panel p:nth-child(3) {
+      transform: translateY(400%);
     }
 
     .panel.open {
@@ -105,7 +122,40 @@
   </div>
 
   <script>
+    // onclick event listeners
+    const animatePanel = (event) => {
+      console.log("event", event);
+      const { target } = event;
 
+      const targetNode = target.tagName === "P"
+        ? target.parentNode
+        : target;
+      
+      console.log("class list", targetNode.style)
+
+      if ([...targetNode.classList].includes("open")) {
+        targetNode.classList.remove("open");
+        targetNode.style["flex-grow"] = 1;
+        targetNode.children[0].style = {
+          transform: "translateY(-400%)",
+          "font-size": "2em",
+        };
+        targetNode.children[2].style = {
+          transform: "translateY(400%)",
+          "font-size": "2em",
+        };
+      } else {
+        targetNode.classList.add("open");
+        targetNode.style["flex-grow"] = 5;
+        targetNode.children[0].style.transform = "translateY(0)";
+        targetNode.children[2].style.transform = "translateY(0)";
+      }
+    };
+
+    const panels = document.querySelectorAll(".panel");
+    panels.forEach((node) => {
+      node.onclick = animatePanel;
+    });
   </script>
 
 
