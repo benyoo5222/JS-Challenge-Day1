@@ -48,9 +48,9 @@
       flex: 1; /* This will grow the items to take the rest of space available along the main axis. The shrink and basis automatically gets 1 and 0 values */
       
       display: flex; /* Make the panel a flex container as well */
-      flex-direction: column;
-      justify-content: space-around;
-      flex-grow: 1;
+      flex-direction: column; /* The text items will now go from top to bottom */
+      justify-content: space-around; /* Even spacing around each item */
+      flex-grow: 1; /* Each panel will take an even amount of free space until on click event */
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -73,9 +73,8 @@
       font-size: 2em;
     }
     
-    .panel p:nth-child(1) {
-      
-      transform: translateY(-400%);
+    .panel p:nth-child(1) { 
+      transform: translateY(-400%); /* Intially move the top text out of sight */
     }
 
     .panel p:nth-child(2) {
@@ -83,7 +82,7 @@
     }
 
     .panel p:nth-child(3) {
-      transform: translateY(400%);
+      transform: translateY(400%); /* Intially move the bottom text out of sight */
     }
 
     .panel.open {
@@ -131,8 +130,6 @@
         ? target.parentNode
         : target;
       
-      console.log("class list", targetNode.style)
-
       if ([...targetNode.classList].includes("open")) {
         targetNode.classList.remove("open");
         targetNode.style["flex-grow"] = 1;
