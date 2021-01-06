@@ -133,7 +133,7 @@ const handleInput = (event, arrayOfCities) => {
 
   filteredArrayOfCities.forEach(city => {
     const listItem = document.createElement("li");
-    const cityNameAndStateTag = createStringElementTag(`${city.city} ${city.state}`, target.value);
+    const cityNameAndStateTag = createStringElementTag(`${city.city}, ${city.state}`, target.value);
     listItem.innerHTML = `${cityNameAndStateTag} <span class="population">${formatNumber(city.population)}</span>`;
     newUlNode.appendChild(listItem);
   });
